@@ -5,9 +5,13 @@ html(lang="en")
     body.login 
         .contenedor-formulario 
             h1 Iniciar Sesion en UpTask 
-
-            if error 
-                p.alerta.error= error 
+                
+            if locals.mensajes 
+                .alertas
+                    each categoria in Object.keys(locals.mensajes)
+                        each error in mensajes[categoria]
+                            .alerta(class=`${categoria}`)
+                                p= error     
 
             form#formulario.caja.caja-login(method="POST" action="/iniciar-sesion")
                 .campo 
@@ -18,5 +22,6 @@ html(lang="en")
                     input(type="password" name="password" placeholder="Tu Password" value= password)
                 .campo.enviar 
                     input.boton(type="submit" value="Iniciar Sesion")
-                .campo 
-                    a(href="/crear-cuenta") ¿Aun no tienes cuenta? Crea una Gratis 
+                .campo.acciones 
+                    a(href="/crear-cuenta") ¿Aun no tienes cuenta? Crea una Gratis
+                    a(href="/reestablecer") ¿Olvidaste tu Contraseña?

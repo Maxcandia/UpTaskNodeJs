@@ -5,8 +5,7 @@ const router = express.Router();
 const { body } = require('express-validator');
 
 
-const proyectosController = require
-('../controllers/proyectosController');
+const proyectosController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
 const usuariosController = require('../controllers/usuariosController');
 const authController = require('../controllers/authController');
@@ -65,10 +64,22 @@ module.exports = function(){
             authController.usuarioAutenticado,
             tareasController.eliminarTarea
     );
+        // Crear Usuario
         router.get('/crear-cuenta', usuariosController.formCrearCuenta);
         router.post('/crear-cuenta', usuariosController.crearCuenta);
+        
+       // Iniciar Sesion
         router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
         router.post('/iniciar-sesion', authController.autenticarUsuario);
+
+       // Cerrar Sesion 
         router.get('/cerrar-sesion', authController.cerrarSesion);
+
+        // Restablecer Contraseña
+        router.get('/reestablecer', usuariosController.formRestablecerPassword);
+        router.post('/reestablecer', authController.enviarToken);
+        router.get('/reestablecer/:token', authController.validarToken);
+        router.post('/reestablecer/:token', authController.actualizarPassword);
+
     return router;
 }
